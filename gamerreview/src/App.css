@@ -1,0 +1,57 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.Game-list {
+  width: 800px
+}
+
+.card{
+  height: 550px;
+  width:500px;
+  flex-grow: 0;
+  display:inline-block;
+  background-color: #9693935f;
+}
+
+.card-img-top{
+  width: 200px;
+  height: 200px
+}
+
+.card-group{
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+  padding-left: 20px
+
+}
+
+.selection-box{
+  padding-left: 20px
+}
