@@ -8,6 +8,11 @@ const router = express.Router(); // eslint-disable-line
 
 // User Login
 router.post('/login', asyncHandler(async (req, res) => {
+  const user = await User.findOne({
+    username: req.body.username,
+  });
+  if (!user) return res.status(201).send({success: false, msg: 'Authentication failed. User not found.'});
+  user.comparePassword(req.body.password, (err, isMatch) => {
     if (isMatch && !err) {
       return res.status(201).send({success: true, msg: 'User authenticated successfully'});
     } else {
