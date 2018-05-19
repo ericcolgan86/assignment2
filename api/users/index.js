@@ -8,17 +8,15 @@ const router = express.Router(); // eslint-disable-line
 
 // User Login
 router.post('/login', asyncHandler(async (req, res) => {
-  console.log(`/login`);
-    const user = req.body;
-    if (user) {
-          const userResp = await User.findOne(user);
-          if (!userResp) return res.status(201).send({success: false, msg: 'Authentication failed. User not found.'});
-          else{
-            return res.status(201).send({success: true, msg: 'User authenticated successfully'});
-          }        
-      } else {
-         return handleError(res, err);
-      }
+    if (isMatch && !err) {
+      return res.status(201).send({success: true, msg: 'User authenticated successfully'});
+    } else {
+      res.status(201).send({
+        success: false,
+        msg: 'Authentication failed. Wrong password.',
+      });
+    }
+  });
 }));
 
 // User Register
