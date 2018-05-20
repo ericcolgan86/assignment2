@@ -4,7 +4,7 @@
   "description": "node lab 1",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --ignore gamerreview/* --exec babel-node index.js",
+    "start": "node index.js",
     "pretest": "eslint . "
   },
   "author": "ecolgan",
