@@ -32,7 +32,8 @@ app.use('/api/games', gamesRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/comments', commentsRouter);
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'gamerreview/build')));
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
