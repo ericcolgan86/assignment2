@@ -7,7 +7,7 @@
     "start": "nodemon --ignore gamerreview/* --exec babel-node index.js",
     "pretest": "eslint . "
   },
-  "author": "fxwalsh",
+  "author": "ecolgan",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
