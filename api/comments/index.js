@@ -6,36 +6,28 @@ const router = express.Router(); // eslint-disable-line
 
 
 
-// User Login
-// router.post('/login', asyncHandler(async (req, res) => {
-//   const user = await User.findOne({
-//     username: req.body.username,
-//   });
-//   if (!user) return res.status(201).send({success: false, msg: 'Authentication failed. User not found.'});
-//   user.comparePassword(req.body.password, (err, isMatch) => {
-//     if (isMatch && !err) {
-//       return res.status(201).send({success: true, msg: 'User authenticated successfully'});
-//     } else {
-//       res.status(201).send({
-//         success: false,
-//         msg: 'Authentication failed. Wrong password.',
-//       });
-//     }
-//   });
-// }));
+// get comment
+router.get('/:id', asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  const comments = await Comment.find({gameID: id});
+  return res.send({comments});
+}));
 
-// // User Register
-// router.post('/register', asyncHandler(async (req, res) => {
-//     const newUser = new User({
-//         username: req.body.username,
-//         password: req.body.password,
-//       });
-//       console.log(newUser);
-//       // save the user
-//       var resp = await newUser.save();
-//       console.log(resp);
-//       return res.status(201).send({success: true, msg: 'User authenticated successfully'});
-// }));
+// add comment
+router.post('/add', asyncHandler(async (req, res) => {
+  const newComment = new Comment({
+      gameID: req.body.gameID,
+      username: req.body.username,
+      text: req.body.text
+    });
+    console.log(newComment);
+    // save the comment
+    var resp = await newComment.save();
+    console.log(resp);
+    return res.status(201).send({success: true, msg: 'Comment saved'});
+}));
+
+
 
 
 

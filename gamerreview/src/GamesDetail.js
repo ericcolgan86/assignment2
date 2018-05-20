@@ -4,9 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { withRouter } from 'react-router-dom';
 import AppNav from './AppNav';
 import * as api from './stubAPI/stubGamesAPI';
+import session from './sessionCache';
+import * as commentapi from './stubAPI/stubCommentsAPI';
+import CommentForm from './CommentForm';
+import CommentItem from './CommentItem';
+import _ from 'lodash';
 
 class GamesDetail extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
     let params = props.match.params
     this.state = {
@@ -20,62 +25,76 @@ class GamesDetail extends React.Component {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     console.log('>> component just mounted GAMES DETAIL');
     const resp = await api.getByID(this.state.id);
+    const respComments = await commentapi.getByID(this.state.id);
+    let orderedComments = respComments.comments.slice().reverse();
     console.log('>> gamename' + resp.name);
     console.log('>> Image' + resp.imageurlbig);
-    
+
     // just have setTimeout here to simulate loading time
     setTimeout(() => this.setState({
-      gameName: resp.game.name, 
+      gameName: resp.game.name,
       gameDescription: resp.game.description,
       gameImage: resp.game.imageurlbig,
       gameRating: resp.game.rating,
       gameReview: resp.game.reviewurl,
-      loading : false
+      loading: false,
+      comments: orderedComments
     }), 3000);
-};
+  };
 
-  // componentDidMount(){
-  //   console.log('>> component just mounted GAMES DETAIL');
-  //   let data = api.getByID(this.state.id);
-  //   console.log('>> gamename' + data.name);
-  //   console.log('>> Image' + data.imageurlbig);
-    
-  //   // just have setTimeout here to simulate loading time
-  //   setTimeout(() => this.setState({
-  //     gameName: data.name, 
-  //     gameDescription: data.description,
-  //     gameImage: data.imageurlbig,
-  //     gameRating: data.rating,
-  //     gameReview: data.reviewurl,
-  //     loading : false
-  //   }), 3000);
-  // }
 
-  buildSpinner(){
-    return(
-      <img align="center" className="card-img-top" src="/Images/loading.gif" alt="Loading"/>
+  buildSpinner() {
+    return (
+      <img align="center" className="card-img-top" src="/Images/loading.gif" alt="Loading" />
     )
   }
 
-  buildContent(){
-    console.log('>> gamename' + this.state);
+  handleSave(comment) {
+    //let updatedComments = this.state.comments.concat(comment)
+    let updatedComments = [comment, ...this.state.comments];
+    this.setState({
+      comments: updatedComments
+    })
+  }
+
+  buildCommentForm() {
+    let form
+    if (session.getUser() !== null) {
+      form = <CommentForm gameID={this.state.id} onSave={this.handleSave.bind(this)} />
+    }
+    return form
+  }
+  buildContent() {
+    console.log('>> gamename', this.state);
+    let comments = this.state.comments.map((c) =>
+      <CommentItem key={c._id} comment={c} />
+    );
     let item = (
-      <div className="card">
-          <img className="card-img-top" src={this.state.gameImage} alt={this.state.gameName}/>
+      <div>
+        <div className="card">
+          <img className="card-img-top" src={this.state.gameImage} alt={this.state.gameName} />
           <div className="card-body">
             <h5 className="card-title">{this.state.gameName}</h5>
             <p className="card-text">{this.state.gameDescription}</p>
             <p className="card-text"><small className="text-muted">Rating:{this.state.gameRating}</small></p>
           </div>
-          <iframe title={this.state.gameName} align="center" width="854" height="480" src={this.state.gameReview} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+          <div className="row">
+            <iframe title={this.state.gameName} align="center" width="854" height="480" src={this.state.gameReview} frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
+          </div>
+          {this.buildCommentForm()}
+          <div className="row">
+            {comments}
+          </div>
+        </div>
       </div>
-      ) ;
-   return( 
-    <div className="container-fluid" align="center"> {item}</div>  
-   )
+    );
+    return (
+      <div className="container-fluid" align="center"> {item}</div>
+
+    )
   }
 
   render() {
@@ -88,9 +107,9 @@ class GamesDetail extends React.Component {
       content = this.buildContent()
     }
 
-    return (   
+    return (
       <div className="container-fluid">
-        <AppNav />   
+        <AppNav />
         {content}
       </div>
 

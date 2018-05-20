@@ -59,7 +59,6 @@ class GamesMain extends React.Component {
               filterText={this.state.search}
               sort={this.state.sort} />
               <br />
-            {/* <GamesList games={filteredList} /> */}
             <GamesList games={filteredList} />
           </div>
         </div>
