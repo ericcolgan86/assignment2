@@ -5,8 +5,7 @@ import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
 import session from './sessionCache';
 import * as api from './stubAPI/stubCommentsAPI';
-import { withRouter} from 'react-router-dom';
-import Recaptcha from 'react-recaptcha';
+
 
 
 export default class CommentForm extends React.Component {
@@ -34,7 +33,7 @@ export default class CommentForm extends React.Component {
   async handleAddComment(event){
     let {gameID, username, text} = this.state;
     console.log(gameID,username, text );
-    let result = await api.add(gameID, username, text);
+    await api.add(gameID, username, text);
     this.props.onSave({gameID:gameID, username:username, text:text})
       this.setState({
         gameID:this.props.gameID,

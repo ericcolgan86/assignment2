@@ -16,7 +16,8 @@ class GamesMain extends React.Component {
     this.state = {
       search: '',
       sort: 'name',
-      games: [{}]
+      games: [{}],
+      loading : true
     };
   }
 
@@ -30,24 +31,28 @@ class GamesMain extends React.Component {
 
   async componentDidMount () {
     const resp = await api.getAll();
-    this.setState({
-             games: resp
-           });
+    setTimeout(() => this.setState({
+      games: resp,
+      loading: false
+    }), 1000);
 };
 
+buildSpinner() {
+  return (
+    <img align="center" className="card-img-top" src="/Images/loading.gif" alt="Loading" />
+  )
+}
 
-  // getGames(){
-  //   return  stubGames.getAll().filter((g) => {
-  //     let gameName = g.name.toLowerCase(),
-  //       searchName = this.state.search.toLowerCase()
-  //     return gameName.search(searchName) !== -1
-  //   });
-  // }
 
 
 
   render() {
-    let games = this.state.games;
+    if (this.state.loading) {
+      return this.buildSpinner();
+    }
+    console.log('games: ', this.state.games);
+    
+    let games = this.state.games.filter((game) => game.name.toLowerCase().includes(this.state.search.toLowerCase()));
 
     let filteredList = _.sortBy(games, this.state.sort);
     return (

@@ -18,11 +18,11 @@ const port = process.env.PORT;
 
 mongoose.connect(process.env.mongoDB);
 // Populate DB with sample data
-if (process.env.seedDb) {
-  loadGames();
-  loadUsers();
-  loadComments();
-}
+// if (process.env.seedDb) {
+//   loadGames();
+//   loadUsers();
+//   loadComments();
+// }
 
 // configure body-parser
 app.use(bodyParser.json());

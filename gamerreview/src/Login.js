@@ -28,8 +28,8 @@ class Login extends React.Component {
 
 
   validateForm() {
-    return this.state.username.length > 0 && this.state.password.length > 0;
-    //return this.state.username.length > 0 && this.state.password.length > 0 && this.state.captcha;
+    //return this.state.username.length > 0 && this.state.password.length > 0;
+    return this.state.username.length > 0 && this.state.password.length > 0 && this.state.captcha;
   }
 
   async handleLogin(event){
@@ -106,12 +106,12 @@ class Login extends React.Component {
               onChange={this.handleChange}
               type="password"
             />
-            {/* <Recaptcha
+            <Recaptcha
               ref={e => this.recaptcha = e}
               sitekey="6LeGP00UAAAAAHhY-prpaSVOMYEoOWExqYIF6eXs"
               render="explicit"
               verifyCallback={this.verifyCallback.bind(this)}
-            />         */}
+            />        
             
           </FormGroup>
 

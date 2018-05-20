@@ -8,7 +8,6 @@ import session from './sessionCache';
 import * as commentapi from './stubAPI/stubCommentsAPI';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
-import _ from 'lodash';
 
 class GamesDetail extends React.Component {
   constructor(props) {
@@ -42,7 +41,7 @@ class GamesDetail extends React.Component {
       gameReview: resp.game.reviewurl,
       loading: false,
       comments: orderedComments
-    }), 3000);
+    }), 1000);
   };
 
 
